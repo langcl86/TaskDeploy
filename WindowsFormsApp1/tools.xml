@@ -1,0 +1,59 @@
+<xml version="1.0" encoding="utf-8">
+<!-- 
+	- Each Tool Is Nested In <tool> Tag.
+	
+	[ <name> ]
+	- To add a status check for a task:
+	  Use the attribute "verify" in the <name> tag 
+	  to define the function name in the PS1
+	  
+	- Inner text for <name> will set the default button text.
+	  Button text can be changed dynamically in the PS1
+	  based on verification status (pass or fail).
+	  
+	  
+	[ <path> ]  
+	- The <path> tag will define the action of the button.
+	  Innet text is used to express a file path or command.
+	  
+	- Use the attribute "type" to declare the type of action.
+	  If no type is defined an attempt will be made to start
+	  a new process using the given path, this would be appropriate
+	  when launching an .EXE.
+	  Valid types include:
+	   * ps  - Powershell script or command
+	   * cmd - CMD.exe command
+	   	 
+ -->
+	<tool>
+		<name verify="checkDC">Join Domain</name>
+		<path type="ps" runas="1">join.ps1</path>
+	</tool>
+
+	<tool>
+		<name verify="checkUser">Add User</name>
+		<path type="ps" runas="1">new-profile.ps1</path>
+	</tool>
+
+	<tool>
+		<name>Special Applications</name>
+		<path>AppAssist.exe</path>
+	</tool>
+
+	<tool>
+		<name verify="checkSW">SolarWinds Agent Install</name>
+		<path>AGENT_.EXE</path>
+	</tool>
+	<tool>
+		<name verify="checkBD">BitDefender</name>
+		<path>setupdownloader.xe</path>
+	</tool>
+	<tool>
+		<name verify="checkAct" level="high">Windows Licesnse Info</name>
+		<path type="cmd">slmgr.vbs /dli</path>
+	</tool>
+	<tool>
+		<name verify="checkPnP" level="high">Device Drivers</name>
+		<path type="cmd">compmgmt.msc</path>
+	</tool>
+</xml>
